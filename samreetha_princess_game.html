@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Princess Day Surprise for Samreetha 💖</title>
+<meta name="description" content="Interactive Princess Day card for Samreetha. Tap hearts to unlock the surprise!">
+<style>
+body { margin:0; font-family: 'Arial', sans-serif; background: linear-gradient(#ffe6f0, #fff0f5); display:flex; justify-content:center; align-items:center; height:100vh; overflow:hidden; }
+#game-container { position: relative; width: 95%; max-width: 480px; height: 90vh; border-radius: 20px; background: #fff0f5; box-shadow: 0 4px 12px rgba(0,0,0,0.2); overflow:hidden; padding:10px; }
+h1 { text-align:center; color:#ff4da6; font-size:1.6rem; margin-top:0; }
+#message { display:none; background:#ffe6f0; border-radius:12px; padding:12px; margin-top:10px; font-size:1rem; text-align:center; line-height:1.4; }
+.heart { position:absolute; font-size:24px; cursor:pointer; user-select:none; animation: floatUp linear infinite; }
+@keyframes floatUp { 0% { transform: translateY(0); opacity:1; } 100% { transform: translateY(-500px); opacity:0; } }
+#score { position:absolute; top:8px; right:12px; color:#ff4da6; font-weight:600; font-size:1.1rem; }
+button { display:none; margin-top:10px; padding:10px 14px; border-radius:12px; border:none; background:#ff7ab6; color:white; font-weight:600; cursor:pointer; }
+</style>
+</head>
+<body>
+<div id="game-container">
+<h1>Happy Princess Day 💗</h1>
+<div id="score">Hearts: 0/10</div>
+<div id="message">
+<p>Dear pattuu, you are my princess forever 💕✨</p>
+<p>Thank you for making my life sweeter, happier, and full of love. I am yours today, tomorrow, and always. 💎</p>
+<img src="https://images.unsplash.com/photo-1517487881594-2787fef5ebf7?q=80&w=600&auto=format&fit=crop" alt="Princess" style="width:100%;border-radius:12px;margin-top:6px;">
+<button id="downloadBtn">Download Postcard</button>
+</div>
+</div>
+
+<script>
+let score = 0;
+const maxScore = 10;
+const container = document.getElementById('game-container');
+const scoreDisplay = document.getElementById('score');
+const message = document.getElementById('message');
+
+// Function to create a heart
+function createHeart(){
+    const heart = document.createElement('div');
+    heart.textContent = '💖';
+    heart.className = 'heart';
+    heart.style.left = Math.random() * 90 + '%';
+    heart.style.bottom = '0px';
+    heart.style.fontSize = (20 + Math.random()*20) + 'px';
+    heart.style.animationDuration = (3 + Math.random()*3) + 's';
+    heart.addEventListener('click', () => {
+        score++;
+        scoreDisplay.textContent = `Hearts: ${score}/${maxScore}`;
+        heart.remove();
+        if(score >= maxScore){
+            showMessage();
+        }
+    });
+    container.appendChild(heart);
+    setTimeout(()=>heart.remove(),6000);
+}
+
+// Spawn hearts every 500ms
+const heartInterval = setInterval(createHeart, 500);
+
+function showMessage(){
+    clearInterval(heartInterval);
+    message.style.display = 'block';
+    scoreDisplay.style.display = 'none';
+    // Confetti animation
+    for(let i=0;i<50;i++){
+        const conf = document.createElement('div');
+        conf.textContent='💖';
+        conf.style.position='absolute';
+        conf.style.fontSize=(10+Math.random()*20)+'px';
+        conf.style.left=Math.random()*90+'%';
+        conf.style.top=Math.random()*90+'%';
+        conf.style.opacity=Math.random();
+        container.appendChild(conf);
+        setTimeout(()=>conf.remove(),4000);
+    }
+}
+
+// Optional: Download postcard
+document.getElementById('downloadBtn').addEventListener('click', ()=>{
+    alert('You can take a screenshot to save the postcard on mobile!');
+});
+</script>
+</body>
+</html>
